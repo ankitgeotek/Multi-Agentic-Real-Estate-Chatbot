@@ -1,8 +1,4 @@
 
-# ============================================
-# README.md
-# ============================================
-"""
 # 🏠 Multi-Agent Real Estate Chatbot
 
 A sophisticated AI-powered chatbot system with specialized agents for property issue detection and tenancy law questions.
@@ -355,5 +351,3 @@ For questions or issues, please contact the development team.
 ---
 
 **Built with ❤️ using LangGraph, Groq, and Streamlit**
-"""            'needs_clarification': True
-        

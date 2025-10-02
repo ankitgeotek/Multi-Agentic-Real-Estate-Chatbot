@@ -59,7 +59,8 @@ def route_to_agent(state: AgentState) -> Literal["agent_1_vision", "agent_2_faq"
         Name of the next node to execute
     """
     input_type = state.get('input_type', 'error')
-    text_query = state.get('text_query', '').lower()
+    text_query = state.get('text_query') or ''  # Handle None case
+    text_query = text_query.lower()
     
     logger.info(f"Routing with input_type: {input_type}")
     

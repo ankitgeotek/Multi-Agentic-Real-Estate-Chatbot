@@ -35,4 +35,3 @@ class AgentState(TypedDict, total=False):
     
     # Conversation history (with reducer for appending)
     messages: Annotated[List[Dict], operator.add]
-

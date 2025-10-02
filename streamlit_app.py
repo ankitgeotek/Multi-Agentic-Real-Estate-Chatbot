@@ -121,6 +121,19 @@ with st.sidebar:
         st.session_state.history = []
         st.rerun()
 
+def get_conversation_context(history, max_turns=3):
+    """Get recent conversation context"""
+    if not history:
+        return ""
+    
+    recent = history[-max_turns:]
+    context_parts = []
+    for item in recent:
+        context_parts.append(f"User: {item['query']}")
+        context_parts.append(f"Assistant: {item['response'].response[:200]}...")
+    
+    return "\n".join(context_parts)
+
 # Main interface
 tab1, tab2 = st.tabs(["💬 Chat", "📚 Examples"])
 
@@ -143,8 +156,10 @@ with tab1:
         )
         
         if uploaded_file:
-            st.image(uploaded_file, caption="Uploaded Image", use_container_width=True)
+            st.image(uploaded_file, caption="Uploaded Image", width='stretch')
     
+
+
     # Submit button
     if st.button("🚀 Get Help", type="primary", use_container_width=True):
         if not text_query and not uploaded_file:
@@ -161,8 +176,16 @@ with tab1:
                             image_path = tmp_file.name
                     
                     # Create query
+                    # Get conversation context
+                    conversation_context = get_conversation_context(st.session_state.history)
+
+                    # Create query with context
+                    query_text = text_query if text_query else None
+                    if conversation_context and query_text:
+                        query_text = f"Previous conversation:\n{conversation_context}\n\nCurrent question: {query_text}"
+
                     query = UserQuery(
-                        text_query=text_query if text_query else None,
+                        text_query=query_text,
                         image_path=image_path,
                         user_location=user_location if user_location else None
                     )
